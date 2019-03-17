@@ -1,0 +1,7 @@
+# Online Dataset
+url_dataset: 'https://www.dropbox.com/s/t29nbi8tr056fek/audios-20190317T205234Z-001.zip?dl=1'
+compressed_data_name: 'audios-20190317T205234Z-001.zip'
+
+# Directories for dataset and checkpoints
+data_dir: 'dataset'
+model_dir: 'checkpoints'
