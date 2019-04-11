@@ -1,8 +1,16 @@
 # Online Dataset
-url_dataset: 'https://www.dropbox.com/s/t29nbi8tr056fek/audios-20190317T205234Z-001.zip?dl=1'
-compressed_data_name: 'audios-20190317T205234Z-001.zip'
+url_dataset: 'https://www.dropbox.com/s/bq4iun13ug53x9c/audios-20190411T001746Z-001.zip?dl=1'
+compressed_data_name: 'audios-20190411T001746Z-001.zip'
 
 # Directories for dataset and checkpoints
 data_dir: 'dataset'
-data_dir_fragments: 'dataset\audio_fragments'
+data_dir_audios: 'audios'
+data_dir_fragments: 'audio_fragments'
+data_dir_images: 'images'
 model_dir: 'checkpoints'
+
+# Params that affect preprocessing
+save_audio_fragments: True
+window_length: 35280
+shift_frames: 22050
+frames: 3
