@@ -186,6 +186,6 @@ def _extract_audio_fragments(x, fs, segment):
 if __name__ == '__main__':
 
   params = utils.yaml_to_dict('config.yml')
-  #download_data(params)
-  #extract_data(params)
+  download_data(params)
+  extract_data(params)
   generate_spectogram_images(params)
