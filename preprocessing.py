@@ -1,4 +1,5 @@
 import cv2
+import json
 import os
 import scipy.io.wavfile
 import wget
@@ -7,6 +8,7 @@ import zipfile
 import utils
 
 import numpy as np
+import pandas as pd
 
 from pyAudioAnalysis import audioBasicIO
 from pyAudioAnalysis import audioFeatureExtraction
@@ -183,9 +185,73 @@ def _extract_audio_fragments(x, fs, segment):
   
   return audio_segment
 
+def make_id_label_map(params):
+
+  images_path = os.path.join(params['data_dir'], params['data_dir_images'])
+  labels_json_path = os.path.join(params['data_dir'],params['label_id_json'])
+  id_label_map = dict()
+
+  for i,value in enumerate(os.listdir(images_path)):
+    id_label_map[value] = i
+        
+  with open(labels_json_path,'w') as file:
+    json.dump(id_label_map,file)
+
+def _load_label_id_map(params):
+
+  label_json_path = os.path.join(params['data_dir'], params['label_id_json'])
+  with open(label_json_path, 'r') as file:
+    label_dict = json.load(file) 
+  
+  labels_json_dict = {v:k for k,v in enumerate(label_dict)}
+
+  return labels_json_dict
+
+def split_data(params):
+
+  images_path = os.path.join(params['data_dir'], params['data_dir_images'])
+
+  label_id_map = _load_label_id_map(params)
+
+  images_list = list()
+  label_list = list()
+
+  for root, dirs, files in os.walk(images_path, topdown=False):
+    for name in files:
+      image_name = os.path.join(root, name)
+      label_class = image_name.split(os.sep)[-2]
+      
+      images_list.append(image_name)
+      label_list.append(label_id_map[label_class])        
+
+  all_data = pd.DataFrame.from_dict({'images':images_list,'labels':label_list})
+
+  training_df = pd.DataFrame()
+  validation_df = pd.DataFrame()
+  test_df = pd.DataFrame()
+
+  for label in np.arange(params['num_classes']):
+
+    df_group = all_data[all_data['labels'] == label]
+    
+    training_sample = df_group.sample(frac=0.8)
+    validation_sample = df_group.drop(training_sample.index).sample(frac = 0.8)
+    test_sample = df_group.drop(training_sample.index).drop(validation_sample.index)
+
+    training_df = training_df.append(training_sample)
+    validation_df = validation_df.append(validation_sample)
+    test_df = test_df.append(test_sample)
+
+  training_df.to_csv(os.path.join(params['data_dir'],params['training_data']), header=True, index=None, sep='\t')
+  validation_df.to_csv(os.path.join(params['data_dir'],params['validation_data']), header=True, index=None, sep='\t')
+
+  test_df.to_csv(os.path.join(params['data_dir'],params['test_data']), header=True, index=None, sep='\t')
+
 if __name__ == '__main__':
 
   params = utils.yaml_to_dict('config.yml')
   download_data(params)
   extract_data(params)
   generate_spectogram_images(params)
+  make_id_label_map(params)
+  split_data(params)
