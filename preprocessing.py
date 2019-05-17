@@ -53,40 +53,46 @@ def generate_spectogram_images(params):
       segments = _find_segments_from_audio(x=x, fs=fs)
       
       for i,segment in enumerate(segments):
-          
+
+        imname = 'specgram_matrix_' + os.path.splitext(name)[0] + '_segment' + str(i) + '.jpg'
         audio_fragment = _extract_audio_fragments(x=x, fs=fs, segment=segment)
         
         if params['save_audio_fragments']:
           _save_audio_fragments(fragment_folder, audio_fragment, fs, name, i)
             
-        trainable_frames = _extract_trainable_frames(audio_fragment, params)
-        specgram_list = list()
-        for frame in trainable_frames:
-            
-          specgram, TimeAxis, FreqAxis = audioFeatureExtraction.stSpectogram(
-              frame,
-              fs,
-              round(fs * 0.02),
-              round(fs * 0.01),
-              False
-          )
-          
-          specgram = np.expand_dims(specgram,axis=2)
-          specgram_list.append(specgram)
-            
-        specgram_matrix = np.concatenate((specgram_list),axis=2)
-        _save_specgram_as_image(specgram_folder, specgram_matrix, name, i)
+        trainable_frames = _extract_trainable_frames(audio_fragment, imname, params)
 
-def _enframe(x, winlen, hoplen, frames):
+        if trainable_frames is not None:
+          
+          specgram_list = list()
+          for frame in trainable_frames:
+              
+            specgram, TimeAxis, FreqAxis = audioFeatureExtraction.stSpectogram(
+                frame,
+                fs,
+                round(fs * 0.02),
+                round(fs * 0.01),
+                False
+            )
+            
+            specgram = np.expand_dims(specgram,axis=2)
+            specgram_list.append(specgram)
+              
+          specgram_matrix = np.concatenate((specgram_list),axis=2)
+          _save_specgram_as_image(specgram_folder, specgram_matrix, imname)
+
+def _enframe(x, winlen, hoplen, frames, imname):
   '''
   receives a 1D numpy array and divides it into frames.
   outputs a numpy matrix with the frames on the rows.
   '''
   x = np.squeeze(x)
   if len(x) < winlen:
-    raise TypeError("Window size is bigger than record segment")
+    print('Window size is bigger than record segment: {}'.format(imname))
+    return None
   if x.ndim != 1: 
-    raise TypeError("Enframe input must be a 1-dimensional array.")
+    print('Enframe input segments: {} must be a 1-dimensional array'.format(imname))
+    return None
   
   n_frames = 1 + np.int(np.floor((len(x) - winlen) / float(hoplen)))
   
@@ -101,32 +107,36 @@ def _enframe(x, winlen, hoplen, frames):
   
   return xf   
 
-def _extract_trainable_frames(audio_fragment, params):
+def _extract_trainable_frames(audio_fragment, imname, params):
     
-  windows_matrix = _enframe(audio_fragment,params['window_length'],params['shift_frames'],params['frames'])
   frames = params['frames']
-  
-  middle_frames = frames // 2
-  
-  windows_matrix_len = len(windows_matrix)
-  
-  if frames > windows_matrix_len:
-    raise TypeError("There are not enough frames")
+  windows_matrix = _enframe(audio_fragment,params['window_length'],params['shift_frames'],frames,imname)
 
-  if frames < windows_matrix_len:
+  if windows_matrix is not None:
+  
+    middle_frames = frames // 2
+    
+    windows_matrix_len = len(windows_matrix)
+    
+    if frames > windows_matrix_len:
+      raise TypeError("There are not enough frames")
 
-    if (frames%2) == 0:
-      lower_lim = (windows_matrix_len//2) - (middle_frames - 1)
+    if frames < windows_matrix_len:
+
+      if (frames%2) == 0:
+        lower_lim = (windows_matrix_len//2) - (middle_frames - 1)
+      else:
+        lower_lim = (windows_matrix_len//2) - middle_frames
+
+      upper_lim = (windows_matrix_len//2) + middle_frames
+      trainable_frames = windows_matrix[lower_lim-1:upper_lim,:]
+
     else:
-      lower_lim = (windows_matrix_len//2) - middle_frames
+      trainable_frames = windows_matrix
+    
+    return trainable_frames
 
-    upper_lim = (windows_matrix_len//2) + middle_frames
-    trainable_frames = windows_matrix[lower_lim-1:upper_lim,:]
-
-  else:
-    trainable_frames = windows_matrix
-  
-  return trainable_frames
+  return None
 
 def _save_audio_fragments(fragment_folder, audio_fragment, fs, name, index_name):
     
@@ -140,12 +150,10 @@ def _save_audio_fragments(fragment_folder, audio_fragment, fs, name, index_name)
     fs,
     audio_fragment)
 
-def _save_specgram_as_image(specgram_folder, specgram_matrix, name, index_name):
+def _save_specgram_as_image(specgram_folder, specgram_matrix, imname):
     
   if not os.path.exists(specgram_folder):
     os.makedirs(specgram_folder)
-
-  imname = 'specgram_matrix_' + os.path.splitext(name)[0] + '_segment' + str(index_name) + '.jpg'
       
   fpath = os.path.join(specgram_folder, imname)
   cv2.imwrite(fpath, specgram_matrix)
