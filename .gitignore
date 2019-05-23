@@ -105,3 +105,4 @@ venv.bak/
 
 # Dataset
 dataset/
+checkpoints/

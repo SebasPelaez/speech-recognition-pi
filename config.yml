@@ -23,9 +23,9 @@ save_audio_fragments: True
 window_length: 35280
 shift_frames: 22050
 frames: 3
-num_classes: 10
+num_classes: 1
 
 # Parameters that may affect training
 batch_size: 10
 class_mode: 'other'
-num_epochs: 45
+num_epochs: 30
