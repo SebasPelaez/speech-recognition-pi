@@ -28,4 +28,4 @@ num_classes: 10
 # Parameters that may affect training
 batch_size: 10
 class_mode: 'other'
-num_epochs: 30
+num_epochs: 700
