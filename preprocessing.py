@@ -242,7 +242,7 @@ def split_data(params):
 
     df_group = all_data[all_data['labels'] == label]
     
-    training_sample = df_group.sample(frac=0.8)
+    training_sample = df_group.sample(frac=0.95)
     validation_sample = df_group.drop(training_sample.index).sample(frac = 0.8)
     test_sample = df_group.drop(training_sample.index).drop(validation_sample.index)
 
