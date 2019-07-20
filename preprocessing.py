@@ -54,7 +54,7 @@ def generate_spectogram_images(params):
       
       for i,segment in enumerate(segments):
 
-        imname = 'specgram_matrix_' + os.path.splitext(name)[0] + '_segment' + str(i) + '.jpg'
+        imname = 'specgram_matrix_' + os.path.splitext(name)[0] + '_segment' + str(i) + '.png'
         audio_fragment = _extract_audio_fragments(x=x, fs=fs, segment=segment)
         
         if params['save_audio_fragments']:
@@ -79,6 +79,7 @@ def generate_spectogram_images(params):
             specgram_list.append(specgram)
               
           specgram_matrix = np.concatenate((specgram_list),axis=2)
+          specgram_matrix = specgram_matrix * 255
           _save_specgram_as_image(specgram_folder, specgram_matrix, imname)
 
 def _enframe(x, winlen, hoplen, frames, imname):
@@ -242,8 +243,8 @@ def split_data(params):
 
     df_group = all_data[all_data['labels'] == label]
     
-    training_sample = df_group.sample(frac=0.95)
-    validation_sample = df_group.drop(training_sample.index).sample(frac = 0.8)
+    training_sample = df_group.sample(frac=0.98)
+    validation_sample = df_group.drop(training_sample.index).sample(frac = 0.5)
     test_sample = df_group.drop(training_sample.index).drop(validation_sample.index)
 
     training_df = training_df.append(training_sample)

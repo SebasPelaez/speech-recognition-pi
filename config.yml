@@ -16,10 +16,10 @@ training_data: 'training.txt'
 validation_data: 'validation.txt'
 
 # Data configuration
-image_shape: [224,224]
+image_shape: [110,480]
 
 # Params that affect preprocessing
-save_audio_fragments: True
+save_audio_fragments: False
 window_length: 35280
 shift_frames: 22050
 frames: 3
@@ -28,4 +28,4 @@ num_classes: 10
 # Parameters that may affect training
 batch_size: 10
 class_mode: 'other'
-num_epochs: 50
+num_epochs: 25
