@@ -29,3 +29,5 @@ num_classes: 10
 batch_size: 10
 class_mode: 'other'
 num_epochs: 25
+learning_rate: 0.001
+loss: 'sparse_categorical_crossentropy'
