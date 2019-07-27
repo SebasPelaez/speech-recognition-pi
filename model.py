@@ -7,14 +7,14 @@ class ModelArchitecture(tf.keras.models.Model):
 
     self.num_classes = num_classes
 
-    self.conv1 = tf.keras.layers.Conv2D(filters=64,kernel_size=7,strides=2,padding='same')
+    self.conv1 = tf.keras.layers.Conv2D(filters=3,kernel_size=7,strides=2,padding='same')
     self.bn1 = tf.keras.layers.BatchNormalization()
     self.activation1 = tf.keras.layers.Activation('relu')
     self.max_pool_1 = tf.keras.layers.MaxPool2D(pool_size=5, padding='same')
     
     self.flatten = tf.keras.layers.Flatten()
     
-    self.fully_connected_1 = tf.keras.layers.Dense(units = 128)
+    self.fully_connected_1 = tf.keras.layers.Dense(units = 12, kernel_regularizer=tf.keras.regularizers.l1_l2(l1=0.01, l2=0.01))
     self.bn2 = tf.keras.layers.BatchNormalization()
     self.activation_relu = tf.keras.layers.Activation('relu')
 
