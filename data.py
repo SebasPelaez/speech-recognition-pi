@@ -18,7 +18,8 @@ def make_datagenerator(params, mode):
     y_col = 'labels',
     target_size = params['image_shape'],
     batch_size = params['batch_size'],
-    class_mode = params['class_mode']
+    class_mode = params['class_mode'],
+    shuffle=params['shuffle']
   )
    
   return generator

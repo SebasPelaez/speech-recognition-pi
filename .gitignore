@@ -106,3 +106,4 @@ venv.bak/
 # Dataset
 dataset/
 checkpoints/
+experiments-weights/
