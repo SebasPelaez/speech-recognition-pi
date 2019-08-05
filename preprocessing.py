@@ -88,7 +88,7 @@ def _enframe(x, winlen, hoplen, frames, imname):
   outputs a numpy matrix with the frames on the rows.
   '''
   x = np.squeeze(x)
-  if len(x) < winlen:
+  if len(x) <= winlen:
     print('Window size is bigger than record segment: {}'.format(imname))
     return None
   if x.ndim != 1: 
@@ -259,8 +259,8 @@ def split_data(params):
 if __name__ == '__main__':
 
   params = utils.yaml_to_dict('config.yml')
-  download_data(params)
-  extract_data(params)
+  #download_data(params)
+  #extract_data(params)
   generate_spectogram_images(params)
   make_id_label_map(params)
   split_data(params)

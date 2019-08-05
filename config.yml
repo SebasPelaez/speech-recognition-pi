@@ -1,5 +1,5 @@
 # Online Dataset
-url_dataset: 'https://www.dropbox.com/s/24s1jjgn5bjhb8g/audios-20190517T000334Z-001.zip?dl=1'
+url_dataset: 'https://www.dropbox.com/s/dlfab5ttj0ojmdm/audios-20190802T011825Z-001.zip?dl=1'
 compressed_data_name: 'audios-20190517T000334Z-001.zip'
 
 # Directories for dataset and checkpoints
@@ -19,16 +19,16 @@ validation_data: 'validation.txt'
 image_shape: [110,480]
 
 # Params that affect preprocessing
-save_audio_fragments: False
+save_audio_fragments: True
 window_length: 35280
 shift_frames: 22050
 frames: 3
 num_classes: 10
 
 # Parameters that may affect training
-batch_size: 8
+batch_size: 16
 class_mode: 'other'
 num_epochs: 10
-learning_rate: 0.01
+learning_rate: 0.001
 loss: 'sparse_categorical_crossentropy'
 shuffle: True

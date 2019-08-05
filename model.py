@@ -7,7 +7,7 @@ class ModelArchitecture(tf.keras.models.Model):
 
     self.num_classes = num_classes
 
-    self.conv1 = tf.keras.layers.Conv2D(filters=32,kernel_size=5,strides=2,padding='same')
+    self.conv1 = tf.keras.layers.Conv2D(filters=32,kernel_size=7,strides=2,padding='same')
     self.bn1 = tf.keras.layers.BatchNormalization()
     self.activation1 = tf.keras.layers.Activation('relu')
     #self.max_pool1 = tf.keras.layers.MaxPool2D(pool_size=3, padding='same')
@@ -22,12 +22,11 @@ class ModelArchitecture(tf.keras.models.Model):
 
     self.flatten = tf.keras.layers.Flatten()
 
-    """
+    
     self.fully_connected_1 = tf.keras.layers.Dense(units = 128)
     self.bn3 = tf.keras.layers.BatchNormalization()
     self.activation_relu = tf.keras.layers.Activation('relu')
-    """
-
+    
     self.fully_connected_output = tf.keras.layers.Dense(units = self.num_classes)
     self.activation_softmax = tf.keras.layers.Activation('softmax')
         
@@ -47,13 +46,13 @@ class ModelArchitecture(tf.keras.models.Model):
 
     flat = self.flatten(pool1)
     
-    """
+    
     third_block = self.fully_connected_1(flat)
     third_block = self.bn3(third_block, training=training)
     third_block = self.activation_relu(third_block)
-    """
+    
 
-    output = self.fully_connected_output(flat)
+    output = self.fully_connected_output(third_block)
     output = self.activation_softmax(output)
 
     return output
