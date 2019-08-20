@@ -10,18 +10,9 @@ class ModelArchitecture(tf.keras.models.Model):
     self.conv1 = tf.keras.layers.Conv2D(filters=64,kernel_size=7,strides=2,padding='same')
     self.bn1 = tf.keras.layers.BatchNormalization()
     self.activation1 = tf.keras.layers.Activation('relu')
-    #self.max_pool1 = tf.keras.layers.MaxPool2D(pool_size=3, padding='same')
     self.avg_pool1 = tf.keras.layers.AveragePooling2D(pool_size=5, padding='same')
 
-    """
-    self.conv2 = tf.keras.layers.Conv2D(filters=64,kernel_size=5,strides=2,padding='same')
-    self.bn2 = tf.keras.layers.BatchNormalization()
-    self.activation2 = tf.keras.layers.Activation('relu')
-    self.max_pool2 = tf.keras.layers.MaxPool2D(pool_size=3, padding='same')
-    """
-
     self.flatten = tf.keras.layers.Flatten()
-
     
     self.fully_connected_1 = tf.keras.layers.Dense(units = 128)
     self.bn3 = tf.keras.layers.BatchNormalization()
@@ -37,15 +28,7 @@ class ModelArchitecture(tf.keras.models.Model):
     first_block = self.activation1(first_block)
     pool1 = self.avg_pool1(first_block)
 
-    """
-    second_block = self.conv2(pool1)
-    second_block = self.bn2(second_block, training=training)
-    second_block = self.activation2(second_block)
-    pool2 = self.max_pool2(second_block)
-    """
-
     flat = self.flatten(pool1)
-    
     
     third_block = self.fully_connected_1(flat)
     third_block = self.bn3(third_block, training=training)
