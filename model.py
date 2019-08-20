@@ -7,11 +7,11 @@ class ModelArchitecture(tf.keras.models.Model):
 
     self.num_classes = num_classes
 
-    self.conv1 = tf.keras.layers.Conv2D(filters=32,kernel_size=7,strides=2,padding='same')
+    self.conv1 = tf.keras.layers.Conv2D(filters=64,kernel_size=7,strides=2,padding='same')
     self.bn1 = tf.keras.layers.BatchNormalization()
     self.activation1 = tf.keras.layers.Activation('relu')
     #self.max_pool1 = tf.keras.layers.MaxPool2D(pool_size=3, padding='same')
-    self.avg_pool1 = tf.keras.layers.AveragePooling2D(pool_size=3, padding='same')
+    self.avg_pool1 = tf.keras.layers.AveragePooling2D(pool_size=5, padding='same')
 
     """
     self.conv2 = tf.keras.layers.Conv2D(filters=64,kernel_size=5,strides=2,padding='same')
