@@ -1,5 +1,5 @@
 # Online Dataset
-url_dataset: 'https://www.dropbox.com/s/bch8714u0co45ce/audios-20190820T200553Z-001.zip?dl=1'
+url_dataset: 'https://www.dropbox.com/s/o4zpdy5mvzcvdqh/audios-20190901T235006Z-001.zip?dl=1'
 compressed_data_name: 'audios-20190517T000334Z-001.zip'
 
 # Directories for dataset and checkpoints
