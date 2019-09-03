@@ -2,6 +2,8 @@ from datetime import datetime, timedelta
 import speech_recognition as sr
 import argparse
 
+import preprocessing
+
 parser = argparse.ArgumentParser(description="Pipeline for keywords predicts")
 parser.add_argument("--wait", type=int, default="",help="Waiting time")
 args = parser.parse_args()
@@ -23,17 +25,16 @@ def listen():
     with microphone as source:
         audio = recognizer.listen(source)
 
-        print("audio", audio)
-
     # write audio to a WAV file
-    filename = "microphone-results-" + str(i) + ".wav"
+    filename = 'microphone-results-' + str(i) + '.wav'
     i = i + 1
     with open(filename, "wb") as f:
         f.write(audio.get_wav_data())
+        print('Saving ', audio)
+        preprocessing.generate_spectogram_images(.....)
 
 while True:
     current_time = datetime.now()
     if( current_time >= next_time):
         listen()
         next_time = datetime.now() + timedelta(seconds=wait)
-        print(next_time);

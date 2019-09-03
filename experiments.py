@@ -24,8 +24,8 @@ def train_model(params):
   net(inputs, training=False)
 
   cp_callback = tf.keras.callbacks.ModelCheckpoint(
-    os.path.join(params['model_dir'], 'tf_ckpt'), 
-    save_weights_only=True, 
+    os.path.join(params['model_dir'], 'tf_ckpt'),
+    save_weights_only=True,
     verbose=1,
     period=5)
 
@@ -39,11 +39,11 @@ def train_model(params):
 
   net.compile(optimizer=optimizer, loss=params['loss'], metrics=['sparse_categorical_accuracy'])
   net.fit_generator(
-    train_generator, 
-    steps_per_epoch=steps_per_epoch, 
+    train_generator,
+    steps_per_epoch=steps_per_epoch,
     epochs=params['num_epochs'],
     workers=4,
-    validation_data=val_generator, 
+    validation_data=val_generator,
     validation_steps=validation_steps,
     callbacks=[cp_callback,tb_callback])
 
@@ -54,7 +54,7 @@ if __name__ == '__main__':
   parser.add_argument('-v', '--verbosity', default='INFO',
     choices=['DEBUG', 'ERROR', 'FATAL', 'INFO', 'WARM'],
   )
-  
+
   args = parser.parse_args()
   tf.logging.set_verbosity(args.verbosity)
 

@@ -15,8 +15,8 @@ def yaml_to_dict(yml_path):
 def load_id_label_map(params):
   label_json_path = os.path.join(params['data_dir'], params['label_id_json'])
   with open(label_json_path, 'r') as file:
-    label_dict = json.load(file) 
-  
+    label_dict = json.load(file)
+
   labels_json_dict = {k:v for k,v in enumerate(label_dict)}
 
   return labels_json_dict
