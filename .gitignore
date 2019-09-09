@@ -114,3 +114,4 @@ experiments-weights/
 
 *.wav
 *.png
+.vscode
