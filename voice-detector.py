@@ -33,10 +33,24 @@ def listen():
 
   # write audio to a WAV file
   filename = './microphone-dataset/audios/microphone-result.wav'
+  specgram_image = "./microphone-dataset/images/audios/specgram_matrix_microphone-result_segment0.png"
+  
   with open(filename, "wb") as f:
-    f.write(audio.get_wav_data())
-    print('Saving ', audio)
+    try:
+      f.write(audio.get_wav_data())
+      print('[INFO] Saving ', audio)
+    except:
+      print("[ERROR] Some error in saved-audio script")
+    
+
+
+  try:
+    print("[INFO] Preprocesing audio script")
     preprocessing.generate_spectogram_images(params)
+  except :
+    print("[ERROR]: Some error in preprocessing-audio script")
+  
+
 
 while True:
   current_time = datetime.now()
