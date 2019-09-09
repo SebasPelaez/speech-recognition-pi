@@ -93,13 +93,13 @@ def listen():
   img = img.resize((110, 480))
   img = np.array(img)
   img = img[np.newaxis, ...]
-  print("[INFO] Size of matrix :{} ".format(img.shape))
+  print("[INFO] Size of matrix : {} ".format(img.shape))
 
   try:
     prediction = make_predictions(img)
     print("[INFO] Predictions {}".format(prediction))
     print("[INFO] Talk!")
-    time.sleep(10)
+
   except Exception as e:
     print("[ERROR] We can`t predict, Try again ")
     print(e)
