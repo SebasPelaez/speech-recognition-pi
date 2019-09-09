@@ -113,3 +113,4 @@ checkpoints/
 experiments-weights/
 
 *.wav
+*.png
