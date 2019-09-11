@@ -259,8 +259,8 @@ def split_data(params):
 if __name__ == '__main__':
 
   params = utils.yaml_to_dict('config.yml')
-  #download_data(params)
-  #extract_data(params)
+  download_data(params)
+  extract_data(params)
   generate_spectogram_images(params)
   make_id_label_map(params)
   split_data(params)
