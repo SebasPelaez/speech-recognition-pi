@@ -1,6 +1,6 @@
 # Online Dataset
-url_dataset: 'https://www.dropbox.com/s/o4zpdy5mvzcvdqh/audios-20190901T235006Z-001.zip?dl=1'
-compressed_data_name: 'audios-20190901T235006Z-001.zip'
+url_dataset: 'https://www.dropbox.com/s/ycv53b3c9xe32fs/audios-20190928T015626Z-001.rar?dl=1'
+compressed_data_name: 'audios-20190928T015626Z-001.rar'
 
 # Directories for dataset and checkpoints
 data_dir: 'dataset'
@@ -28,7 +28,7 @@ num_classes: 10
 # Parameters that may affect training
 batch_size: 16
 class_mode: 'other'
-num_epochs: 10
-learning_rate: 0.001
+num_epochs: 30
+learning_rate: 0.01
 loss: 'sparse_categorical_crossentropy'
 shuffle: True
